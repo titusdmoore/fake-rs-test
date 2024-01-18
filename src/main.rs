@@ -1,3 +1,7 @@
+use core::fmt;
+use std::fs::File;
+use std::io::Write;
+
 use fake::faker::boolean::en::*;
 use fake::faker::company::en::*;
 use fake::faker::name::en::*;
@@ -31,8 +35,11 @@ pub struct Item {
 }
 
 fn main() {
-    for _ in 0..10 {
+    let mut file = File::create("short.txt").unwrap();
+
+    for _ in 0..10000 {
         let interaction: Interaction = Faker.fake();
-        println!("{:?}", interaction);
+
+        file.write_fmt(format_args!("{:?},\n", interaction)).unwrap();
     }
 }
